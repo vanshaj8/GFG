@@ -1,0 +1,52 @@
+#include<iostream>
+#include<bits/stdc++.h>
+#include<list>
+#include<stack>
+#include<string.h>
+using namespace std;
+stack<int>s;
+
+static void insert(int x)
+{
+	if(s.empty())
+	{
+		s.push(x);
+	}
+	else
+	{
+		int a=s.top();
+		s.pop();
+		insert(x);
+		s.push(a);
+	}
+}
+void display()
+{
+	while(!s.empty())
+	{
+		cout<<s.top()<<" ";
+		s.pop();
+	}
+}
+int reverse()
+{
+	if(s.size()>0)
+	{
+		int x=s.top();
+		s.pop();
+		reverse();
+		insert(x);
+	}
+}
+int main()
+{
+	s.push(1);
+	s.push(2);
+	s.push(3);
+	s.push(4);
+	insert(5);
+//	display();
+	reverse();
+	display();
+	return 0;
+}
