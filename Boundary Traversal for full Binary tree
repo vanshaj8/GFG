@@ -1,0 +1,111 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node* left;
+	Node* right;
+	
+};
+
+Node* newNode(int value)
+{
+	Node* newnode=new Node();
+	newnode->data=value;
+	newnode->left=NULL;
+	newnode->right=NULL;
+	
+	return newnode;
+}
+// A function to print the leaf nodes
+
+void printLeaves(Node* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	
+	printLeaves(root->left);
+	if(!(root->left)&& !(root->right))
+	{
+		cout<<root->data<<" ";
+	}
+	printLeaves(root->right);
+}
+// A function to print all the left boundary except the leaf nodes
+void printboundaryLeft(Node* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	if(root->left)
+	{
+		cout<<root->data<<" ";
+		printboundaryLeft(root->left);
+	}
+	else if(root->right)
+	{
+		cout<<root->data<<" ";
+		printboundaryLeft(root->right);
+	}
+}
+
+// A function to print the Right Boundary except the Leaf node
+
+
+void printboundaryRight(Node* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	if(root->right)
+	{
+		printboundaryRight(root->right);
+		cout<<root->data<<" ";
+	}
+	else if(root->left)
+	{
+		printboundaryRight(root->left);
+		cout<<root->data<<" ";
+	}
+}
+
+// A function to print the boundary
+void printboundary(Node* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	cout<<root->data<<" ";
+	
+	printboundaryLeft(root->left);
+	printLeaves(root->left);
+	printLeaves(root->right);
+	printboundaryRight(root->right);
+}
+int main()
+{
+	Node* root = newNode(20); 
+    root->left = newNode(8); 
+    root->left->left = newNode(4); 
+    root->left->right = newNode(12); 
+    root->left->right->left = newNode(10); 
+    root->left->right->right = newNode(14); 
+    root->right = newNode(22); 
+    root->right->right = newNode(25); 
+	
+	printboundary(root);
+	
+	
+	
+	
+	return 0;
+}
