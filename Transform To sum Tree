@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node* left;
+	Node* right;
+	
+};
+
+Node* newNode(int value)
+{
+	Node* newnode=new Node();
+	newnode->data=value;
+	newnode->left=NULL;
+	newnode->right=NULL;
+	
+	return newnode;
+}
+// To print sum tree
+int toSumTree(Node* root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	int oldval=root->data;
+	root->data=toSumTree(root->left)+toSumTree(root->right);// basically replacing 
+	
+	return oldval+root->data;  // returning the new values 
+}
+
+void preorder(Node* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	cout<<root->data<<" ";
+	preorder(root->left);
+	preorder(root->right);
+	
+}
+int main()
+{
+	Node* root = newNode(10);  
+    root->left = newNode(-2);  
+    root->right = newNode(6);  
+    root->left->left = newNode(8);  
+    root->left->right = newNode(-4);  
+    root->right->left = newNode(7);  
+    root->right->right = newNode(5);  
+      
+    toSumTree(root);  
+	
+	preorder(root);
+	
+	
+	
+	
+	return 0;
+}
