@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<stack>
+#include<queue>
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node* left;
+	Node* right;
+	
+};
+
+Node* newNode(int value)
+{
+	Node* newnode=new Node();
+	newnode->data=value;
+	newnode->left=NULL;
+	newnode->right=NULL;
+	
+	return newnode;
+}
+int isLeaf(Node* root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	if(!root->left && !root->right)
+	{
+		return 1;
+	}
+	return 0;
+}
+int isSumTree(Node* root)
+{
+	int ls;
+	int rs;
+	// If node is NUll or it is a leaf node then return True
+	if(root==NULL || isLeaf(root))
+	{
+		return 1;
+	}
+	if(isSumTree(root->left)&& isSumTree(root->right))
+	{
+		if(root->left==NULL)
+		{
+			ls=0;
+		}
+		else if(isLeaf(root->left))
+		{
+			ls=root->left->data;
+		}
+		else
+		{
+			ls=2*(root->left->data);
+		}
+		
+		// Get the Sum of Nodes in right Tree
+		if(root->right==NULL)
+		{
+			rs=0;
+		}
+		else if(isLeaf(root->right))
+		{
+			rs=root->right->data;
+		}
+		else
+		{
+			rs=2*(root->right->data);
+		}
+		
+		return (root->data==ls+rs);
+	}
+	return 0;
+}
+int main()
+{
+	Node* root  = newNode(26);
+    root->left         = newNode(20);
+    root->right        = newNode(3);
+    root->left->left   = newNode(4);
+    root->left->right  = newNode(6);
+    root->right->right = newNode(3);
+    if(isSumTree(root))
+        printf("The given tree is a SumTree ");
+    else
+        printf("The given tree is not a SumTree ");
+
+	
+	
+	return 0;
+}
