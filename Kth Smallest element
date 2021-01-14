@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+struct bstnode
+{
+	int data;
+	bstnode* left;
+	bstnode* right;
+	
+};
+
+bstnode* newNode(int value)
+{
+	bstnode* temp=new bstnode();
+	
+	temp->data=value;
+	temp->left=temp->right=NULL;
+	
+	return temp;
+}
+
+bstnode* insert(bstnode* root,int value)
+{
+	if(root==NULL)
+	{
+		root=newNode(value);
+	}
+	else if(value<=root->data)
+	{
+		root->left=insert(root->left,value);
+	}
+	else
+	{
+		root->right=insert(root->right,value);
+	}
+	
+	return root;
+}
+
+bstnode* ksmallestutil(bstnode* root,int& k)
+{
+	if(root==NULL)
+	{
+		return NULL;
+	}
+	bstnode* left=ksmallestutil(root->left,k);
+	if(left!=NULL)
+	{
+		return left;
+	}
+	k--;
+	// if the current element is the kth smallest return it
+	if(k==0)
+	{
+		return root;
+	}
+	
+	return ksmallestutil(root->right,k);
+}
+void ksmallest(bstnode* root,int k)
+{
+	int count=0;
+	bstnode* res=ksmallestutil(root,k);
+	if(res==NULL)
+	{
+		cout<<"There are less than k nodes in the BST";
+	}
+	else
+	{
+		cout<<"kthe smallest element is "<<res->data<<" ";
+	}
+}
+void inorder(bstnode* root)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	inorder(root->left);
+	cout<<root->data<<" ";
+	inorder(root->right);
+}
+int main()
+{
+	bstnode* root=NULL;
+	int keys[]={20,8,22,4,12,10,14};
+	
+	for(int x: keys)
+	{
+		root=insert(root,x);
+	}
+	
+	int k=3;
+	ksmallest(root,k);
+	return 0;
+}
