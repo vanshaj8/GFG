@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+struct bstnode
+{
+	int data;
+	bstnode* left;
+	bstnode* right;
+	
+};
+
+bstnode* newnode(int value)
+{
+	bstnode* temp=new bstnode();
+	
+	temp->data=value;
+	temp->left=temp->right=NULL;
+	
+	return temp;
+}
+
+bstnode* insert(bstnode* root,int value)
+{
+	if(root==NULL)
+	{
+		root=newnode(value);
+	}
+	else if(value<=root->data)
+	{
+		root->left=insert(root->left,value);
+	}
+	else
+	{
+		root->right=insert(root->right,value);
+	}
+	
+	return root;
+}
+bstnode* constructTreeUtil(int pre[],int* preIndex,int key,int min ,int max,int size)
+{
+	// BASE CASE
+	
+	if(*preIndex>=size)
+	{
+		return NULL;
+	}
+	
+	bstnode* root=NULL;
+	if(key>min && key<max)
+	{
+		root=newnode(key);
+		*preIndex=*preIndex+1;
+		
+		if(*preIndex<size)
+		{
+			root->left=constructTreeUtil(pre,preIndex,pre[*preIndex],min,key,size);
+		}
+		
+		if(*preIndex<size)
+		{
+			root->right=constructTreeUtil(pre,preIndex,pre[*preIndex],key,max,size);
+		}
+	}
+   	
+	return root;
+}
+bstnode* constructTree(int pre[],int size)
+{
+	int preIndex=0;
+	return constructTreeUtil(pre,&preIndex,pre[0],INT_MIN,INT_MAX,size); 
+}
+
+void inorder(bstnode* root)
+{
+	if(root==NULL)
+	{
+	   return ;	
+	}
+	inorder(root->left);
+	cout<<root->data<<" ";
+	inorder(root->right);
+}
+int main()
+{
+	
+	int pre[]={10,5,1,7,40,50};
+	int n= sizeof(pre)/sizeof(pre[0]);
+	
+	bstnode* root=constructTree(pre,n);
+	cout<<"Inorder traversal of binary search Tree"<<endl;
+	inorder(root);
+	
+	return 0;
+}
