@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+#include<iostream>
+#include<set>
+using namespace std;
+
+struct bstnode
+{
+	int data;
+	bstnode* left;
+	bstnode* right;
+	
+};
+
+bstnode* getNode(int value)
+{
+	bstnode* temp=new bstnode();
+	
+	temp->data=value;
+	temp->left=temp->right=NULL;
+	
+	return temp;
+}
+
+bstnode* insert(bstnode* root,int value)
+{
+	if(root==NULL)
+	{
+		root=getNode(value);
+	}
+	else if(value<=root->data)
+	{
+		root->left=insert(root->left,value);
+	}
+	else
+	{
+		root->right=insert(root->right,value);
+	}
+	
+	return root;
+}
+bool search(bstnode* root,int val)
+{
+	bool flag=false;
+	if(root!=NULL)
+	{
+	   if(root->data ==val || search(root->left,val)|| search(root->right,val))
+	   {
+	   	flag=true;
+	   }
+	   
+	}	
+  return flag;
+}
+
+
+int countpairs(bstnode* root1,bstnode* root2,int x)
+{
+	if(root1==NULL)
+	{
+		return 0;
+	}
+	else if(search(root2,x-root1->data))
+	{
+		return 1+countpairs(root1->left,root2,x)+countpairs(root1->right,root2,x);
+	}
+	else
+	{
+		return countpairs(root1->left,root2,x)+countpairs(root1->right,root2,x);
+	}
+}
+int main()
+{
+	//1st tree
+	bstnode* root1= getNode(5); /*             5        */
+    root1->left = getNode(3); /*           /   \      */
+    root1->right = getNode(7); /*         3     7     */
+    root1->left->left = getNode(2); /*    / \   / \    */
+    root1->left->right = getNode(4); /*  2  4  6  8    */
+    root1->right->left = getNode(6);
+    root1->right->right = getNode(8);
+ 
+	// 2 nd tree
+	bstnode* root2 = getNode(10); /*           10         */
+    root2->left = getNode(6); /*           /   \        */
+    root2->right = getNode(15); /*        6     15      */
+    root2->left->left = getNode(3); /*    / \   /  \     */
+    root2->left->right = getNode(8); /*  3  8  11  18    */
+    root2->right->left = getNode(11);
+    root2->right->right = getNode(18);
+    
+    cout<<countpairs(root1,root2,16);
+	return 0;
+}
