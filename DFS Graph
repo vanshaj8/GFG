@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void add_edge(vector<int>adj[],int e ,int v)
+{
+	adj[e].push_back(v);
+	adj[v].push_back(e);
+}
+
+void dfs_traversal(vector<int>graph[],int x,bool vis[],int v)
+{
+
+cout<<x<<" ";
+vis[x]=true;
+for(int i=0;i<v;i++)
+{
+	if(!vis[i])
+	{
+		dfs_traversal(graph,i,vis,v);
+	}
+}
+}
+
+
+int main()
+{
+	int v=4;
+	vector<int>graph[v];
+	add_edge(graph, 0, 1); 
+    add_edge(graph, 0, 2); 
+    add_edge(graph, 1, 2); 
+    add_edge(graph, 2, 3); 
+    add_edge(graph, 2, 0); 
+    add_edge(graph, 3, 3); 
+   // add_edge(graph, 3, 4); 
+	bool vis[]={false};
+	for(int i=0;i<v;i++)
+	{
+		vis[i]=false;
+	}
+	dfs_traversal(graph,0,vis,v);
+	
+	return 0;
+}
