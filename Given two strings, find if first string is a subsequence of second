@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+#include<algorithm>
+
+using namespace std;
+
+bool isSubSequence(char str1[],char str2[],int n,int m)
+{
+	int j=0;
+	for(int i=0;i<m && j<n;i++)
+	{
+		if(str1[j]==str2[i])
+		{
+			j++;
+		}
+	}
+	
+	return (j==n);
+}
+int main()
+{
+	char str1[] = "gksrek"; 
+    char str2[] = "geeksforgeeks";
+    int n=strlen(str1);
+    int m=strlen(str2);
+    isSubSequence(str1, str2, n, m)? cout << "Yes ": 
+                                     cout << "No"; 
+	
+	return 0;
+}
