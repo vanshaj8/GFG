@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#include<vector>
+#include<queue>
+using namespace std;
+
+void sortarray(int *arr,int n,int k)
+{
+	priority_queue<int,vector<int>,greater<int>>pq;
+	int j=0;
+	
+	for(int i=0;i<n;++i)
+	{
+		pq.push(arr[i]);
+		if(pq.size()>k)
+		{
+			arr[j]=pq.top();
+			pq.pop();
+			++j;
+		}
+	}
+	
+	while(pq.size()>0)
+	{
+		arr[j]=pq.top();
+		pq.pop();
+		++j;
+	}
+}
+
+
+int main()
+{
+	int arr[]={6, 5, 3, 2, 8, 10, 9};
+	int k=3;
+	int n=sizeof(arr)/sizeof(arr[0]);
+sortarray(arr,n,k);
+	for(int i=0;i<n;i++)
+	{
+		cout<<arr[i]<<" ";
+	}
+	return 0;
+}
