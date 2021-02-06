@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+#include<stack>
+using namespace std;
+
+void deleteMid(stack<char> &st,int n,int& k)
+{
+	if(k==1)
+	{
+		st.pop();
+		return ;
+	}
+	char temp=st.top();
+	st.pop();
+	k--;
+	deleteMid(st,n,k);
+	st.push(temp);
+	
+}
+int main()
+{
+	stack<char>st;
+	st.push('1');
+	st.push('2');
+	st.push('3');
+	st.push('4');
+	st.push('5');
+	int n=st.size();
+	int k=st.size()/2+1;
+	deleteMid(st,n,k);
+	
+	while (!st.empty()) 
+    { 
+        char p=st.top(); 
+        st.pop(); 
+        cout << p << " "; 
+    } 
+	return 0;
+}
