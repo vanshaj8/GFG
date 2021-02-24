@@ -1,0 +1,17 @@
+int sumtree(Node* root)
+{
+    if(!root)
+    {
+        return 0;
+    }
+    
+    int old_value=root->data;
+    
+    root->data=sumtree(root->left) +sumtree(root->right);
+    
+    return root->data+old_value;
+}
+void toSumTree(Node *root)
+{
+    sumtree(root);
+}
