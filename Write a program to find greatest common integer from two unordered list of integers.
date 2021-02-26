@@ -1,0 +1,29 @@
+#include <iostream>
+#include<bits/stdc++.h>
+#include<set>
+using namespace std;
+
+int main()
+{
+  set<int>myset;
+  int arr[]={1,1,2,4};
+  int arr1[]={9,2,3,7};
+int biggest=INT_MIN;
+  for (auto i: arr)
+  {
+    myset.insert(i);
+  }
+  for(auto j: arr1)
+  {
+    if(myset.find(j)!=myset.end())
+    {
+      if(j>biggest)
+      {
+        biggest=j;
+      }
+    }
+  }
+  cout<<biggest;
+
+  return 0;
+}
