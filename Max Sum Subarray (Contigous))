@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+#include<algorithm> 
+
+using namespace std;
+
+int main()
+{
+  int arr[]={1,2,3,4,5,7};
+  int size=sizeof(arr)/sizeof(arr[0]);
+int k=3;
+  int i=0,j=0,sum=0,maxx=INT_MIN;
+
+  while(j<size)
+  {
+    sum=sum+arr[j];
+    if(j-i+1<k)
+    {
+      j++;
+    }
+    else if(j-i+1==k)
+    {
+      maxx=max(maxx,sum);
+      sum=sum-arr[i];
+      i++;
+      j++;
+    }
+
+  }
+
+cout<<maxx;
+
+  return 0;
+}
