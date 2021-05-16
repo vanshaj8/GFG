@@ -1,0 +1,48 @@
+void pairSum(struct Node *head,int x)
+{
+   struct Node* first=head;
+   struct Node* second=head;
+
+   // second point to end
+   while(second->next!=NULL)
+   {
+     second=second->next;
+   }
+   // to track if we found the pair or not
+   bool found=false;
+
+   while(first!=second && first->next!=second)
+   {
+       // Pair found
+
+       if((first->data+second->data)==x)
+       {
+         found=true;
+         cout<<"("<<first->data<<","<<second->data<<")"<<endl;
+
+         first=first->next;
+         second=second->prev;
+       }
+       else
+       {
+         if((first->data+second->data)<x)
+         {
+           first=first->next;
+         }
+         else
+         {
+           second=second->prev;
+         }
+
+       } 
+
+   }
+   // if no pair is found
+   if(found==false)
+   {
+     cout<<"No pair is found";
+   }
+
+}
+
+
