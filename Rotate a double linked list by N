@@ -1,0 +1,40 @@
+void rotate(struct Node** head,int N)
+{
+
+  if(N==0)
+  {
+    return ;
+  }
+   struct Node* current=*head;
+   int count=1;
+
+   while(count<N && current!=NULL)
+   {
+     current=current->next;
+     count++;
+   }
+
+   // if current is null 
+
+   if(current==NULL)
+   {
+     return ;
+   }
+
+   struct Node* NthNode=current;
+
+   // current will point to the last Node
+   while(current->next!=NULL)
+   {
+     current=current->next;
+   }
+
+   current->next=*head;
+  (*head)->prev=current;
+
+  *head=NthNode->next;
+
+  (*head)->prev=NULL;
+
+  NthNode->next=NULL;
+}
