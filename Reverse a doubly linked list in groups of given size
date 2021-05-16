@@ -1,0 +1,30 @@
+
+Note the linked list insertion is at the beginging so everytime a newNode is added it is added to the begining . Thus time complexity of the solution is O(N);
+
+
+Node* revListInGroupOfGivenSize(Node* head,int k)
+{
+
+  Node* current=head;
+  Node* next=NULL;
+  Node* newHead=NULL;
+
+  int count=0;
+
+  // this will add to the begining of the list
+  while(current!=NULL && count<k)
+  {
+    next=current->next;
+    push(&newHead,current);
+    current=next;
+    count++;
+  }
+
+  if(next!=NULL)
+  {
+    head->next=revListInGroupOfGivenSize(next,k);
+    head->next->prev=head;
+  }
+
+  return newHead;
+}
