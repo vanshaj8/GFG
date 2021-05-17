@@ -50,3 +50,56 @@ Node* mergeKLists(Node* arr[],int last)
 
       return arr[0];
 }
+
+
+
+Using MINHEAP:
+
+
+struct Node* mergeKSortedLists(struct Node* arr[],int k)
+{
+
+priority_queue<Node*,vector<Node*>,compare>pq;
+
+ // Pushing the first element in the linked list
+for(int i=0;i<k;i++)
+{
+  if(arr[i]!=NULL)
+  {
+    pq.push(arr[i]);
+  }
+}
+
+//Handles the case when k=0
+// or lists have no elements in them
+if(pq.empty())
+{
+return NULL;
+}
+
+struct Node* dummy=newNode(0);
+struct Node* last=dummy;
+
+// loop till pq is not empty
+
+while(!pq.empty())
+{
+  struct Node* curr=pq.top();
+  pq.pop();
+
+
+  last->next=curr;
+  last=last->next;
+
+  // check if there is node present after the top node
+
+  if(curr->next!=NULL)
+  {
+    pq.push(curr->next);
+  }
+
+
+
+}
+return dummy->next;
+}
