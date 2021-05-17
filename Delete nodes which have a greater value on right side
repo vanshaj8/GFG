@@ -1,0 +1,22 @@
+void _delLesserNodes(struct Node* head)
+{
+  struct Node* current=head;
+  struct Node* maxnode=head;
+  struct Node* temp;
+
+  while(current!=NULL && current->next!=NULL)
+  {
+     if(current->next->data<current->data)
+     {
+       temp=current->next;
+      current->next=temp->next;
+      free(temp);
+     }
+     else
+     {
+       current=current->next;
+       maxnode=current;
+     }
+
+  }
+}
