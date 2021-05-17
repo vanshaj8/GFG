@@ -1,0 +1,57 @@
+void segregateEvenOdd(struct Node** head)
+{
+
+ // Starting of nodes
+ Node* evenStart=NULL;
+ Node* evenEnd=NULL;
+
+ Node* oddStart=NULL;
+ Node* oddEnd=NULL;
+
+ Node* curr=*head;
+
+ while(curr!=NULL)
+ { 
+    int val=curr->data;
+
+    if(val % 2==0)
+    {
+      if(evenStart==NULL)
+      {
+        evenStart=curr;
+        evenEnd=evenStart;
+      }
+      else
+      {
+        evenEnd->next=curr;
+        evenEnd=evenEnd->next;
+      }
+    }
+    else
+    {
+      if(oddStart==NULL)
+      {
+        oddStart=curr;
+        oddEnd=oddStart;
+      }
+      else
+      {
+        oddEnd->next=curr;
+        oddEnd=oddEnd->next;
+      }
+    }
+
+    curr=curr->next;
+ }
+
+ if(oddStart==NULL || oddStart==NULL)
+ {
+   return ;
+ }
+
+ evenEnd->next=oddStart;
+ oddEnd->next=NULL;
+
+ *head=evenStart;
+
+}
