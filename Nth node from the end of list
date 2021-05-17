@@ -1,0 +1,21 @@
+int ans,m;
+void findele(struct Node* head)
+{
+    if(head==NULL)
+    {
+        return ;
+    }
+    findele(head->next);
+    m--;
+    if(m==0)
+    {
+        ans=head->data;
+    }
+}
+int getNthFromLast(struct Node *head, int n)
+{
+    ans=-1;
+    m=n;
+    findele(head);
+    return ans;
+}
