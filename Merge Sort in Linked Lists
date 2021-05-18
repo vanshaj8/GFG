@@ -1,0 +1,78 @@
+
+void MergeSort(Node** headRef)
+{
+  Node* head=*headRef;
+  Node* a;
+  Node* b;
+
+  // BASE CASE IF LENGTH 0 OR 1
+  if(head==NULL || head->next==NULL)
+  {
+    return;
+  }
+  // Spliting a and b note that & means chaing the linked list
+  FrontBackSplit(head,&a,&b);
+  MergeSort(&a);
+  MergeSort(&b);
+
+  *headRef=SortedMerge(a,b);
+}
+
+Node* SortedMerge(Node* a,Node* b)
+{
+  // Base case 
+  Node* result=NULL;
+  if(a==NULL)
+  {
+    return b;
+  }
+  if(b==NULL)
+  {
+    return a;
+  }
+
+  // pick either a or b
+  if(a->data<=b->data)
+  {
+    result=a;
+    result->next=SortedMerge(a->next,b);
+  }
+  else
+  {
+    result=b;
+    result->next=SortedMerge(a,b->next);
+  }
+  return result;
+}
+
+
+
+
+// Spliting the nodes in two half the front and back halfs and return the two two lists using the reference parameters . If the length is odd ,the extra node should go in the fornt list .Uses the fast and slow poiter strategy
+
+
+void FrontBackSplit(Node* source,Node** frontRef,Node** backRef)
+{
+  Node* fast;
+  Node* slow;
+
+  slow=source;
+  fast=source->next;
+
+  while(fast!=NULL)
+  {
+    fast=fast->next;
+    if(fast!=NULL)
+    {
+      slow=slow->next;
+      fast=fast->next;
+    }
+  }
+
+  // slow is the mid point to the list
+  *frontRef=source;
+  *backRef=slow->next;
+  slow->next=NULL;
+
+}
+
