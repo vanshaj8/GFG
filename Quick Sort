@@ -1,0 +1,102 @@
+
+// Returns the tail of the List
+struct Node* getTail(struct Node* cur)
+{
+  while(cur!=NULL && cur->next!=NULL)
+  {
+    cur=cur->next;
+  }
+  return cur;
+}
+
+// partitions of the list taking the last element as pivot
+
+struct Node* partition(struct Node* head,struct Node* end,struct Node** newHead,struct Node** newEnd)
+{
+  struct Node* pivot=end;
+  struct Node* prev=NULL,*curr=head,*tail=pivot;
+
+  while(curr!=pivot)
+  {
+    if(curr->data<pivot->data)
+    {
+      // First Node that has a value less than the pivot element becomes the new head
+      if(*newHead==NULL)
+      {
+        *newHead=curr;
+      }
+      prev=curr;
+      curr=curr->next;
+    }
+    else
+    {
+      if(prev)
+      {
+        prev->next=curr->next;
+      }
+
+      struct Node* temp=curr->next;
+      curr->next=NULL;
+      tail->next=curr;
+      tail=curr;
+      curr=temp;
+    }
+  }
+  
+  // IF current data is smallest int he current list then the pivot becomes the head
+  if(*newHead==NULL)
+  {
+    *newHead=pivot;
+  }
+
+  // updating the newEnd of the list
+  *newEnd=tail;
+
+  return pivot;
+}
+
+// Here the Sorting Actually happens
+struct Node* quickSortRecur(struct Node* head,struct Node* end)
+{
+  // base condition
+
+  if(!head ||head==end)
+  {
+    return head;
+  }
+
+  Node* newHead=NULL,*newEnd=NULL;
+
+  // Partition the list newHead and NewENd will be udpated
+
+  struct Node* pivot=partition(head,end,&newHead,&newEnd);
+
+  // if pivot is the smallest element no need to recu for left part
+
+  if(newHead!=pivot)
+  {
+    struct Node* temp=newHead;
+    while(temp->next!=pivot)
+    {
+      temp=temp->next;
+    }
+    temp->next=NULL;
+
+    //Recur for the list befor pivot
+    newHead=quickSortRecur(newHead,temp);
+
+    // change next of last node to the left half
+
+    temp=getTail(newHead);
+    temp->next=pivot;
+  }
+
+  pivot->next=quickSortRecur(pivot->next,newEnd);
+
+  return newHead;
+}
+void quickSort(struct Node** headRef)
+{
+  *headRef=quickSortRecur(*headRef,getTail(*headRef));
+  return ;
+}
