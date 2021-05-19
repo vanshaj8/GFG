@@ -403,6 +403,8 @@ void printBoundary(bstnode* root)
   printboundaryright(root->right);
 }
 
+
+
 int toSumTree(bstnode* root)
 {
   if(!root)
@@ -472,6 +474,41 @@ bool isSumtree(bstnode* root)
   checksumtree(root);
   return f;
 }
+
+
+void bottomview(bstnode* root)
+{
+  map<int,int>mp;
+  queue<pair<bstnode*,int>>q;
+  int d=0;
+  q.push(make_pair(root,d));
+
+  while(!q.empty())
+  {
+    pair<bstnode*,int> p =q.front();
+    q.pop();
+    bstnode* curr=p.first;
+    int val=p.second;
+
+    mp[val]=curr->data;
+
+    if(curr->left)
+    {
+      q.push(make_pair(curr->left,val-1));
+    }
+    if(curr->right)
+    {
+      q.push(make_pair(curr->right,val+1));
+    }
+  }
+
+  for(auto m:mp)
+  {
+    cout<<m.second<<" ";
+  }
+}
+
+
 int main()
 {
   bstnode* root=create(1);
@@ -519,6 +556,11 @@ int main()
   {
     cout<<"false ";
   }
+  // Bottom view traversal
+  cout<<"\n";
+  cout<<"Bottom view of Tree : ";
+  bottomview(root);
+
   // Diagonal of a Tree
   cout<<"\n";
   cout<<"Diagonal Traversal of Tree : ";
@@ -529,7 +571,8 @@ int main()
   cout<<"\n";
   cout<<"Boundary Traversal of Tree : ";
   printBoundary(root);
-  
+
+
   /* Sum Tree Function
   cout<<"\n";
   cout<<"Sumtree Inorder Traversal of Tree : ";
