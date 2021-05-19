@@ -415,6 +415,62 @@ int toSumTree(bstnode* root)
 
   return root->data+oldval;
 }
+
+bool isleaflevel(bstnode* root,int level,int* leaflevel)
+{
+  if(!root)
+  {
+    return true;
+  }
+  // if leaf node is encountered
+  if(!root->left && !root->right)
+  {
+    // if leaf node is found for the very first time
+    if(*leaflevel==0)
+    {
+      *leaflevel=level;
+      return true;
+    }
+// check if it is not the first time 
+    return (level==*leaflevel);
+  }
+  return isleaflevel(root->left,level+1,leaflevel) && isleaflevel(root->right,level+1,leaflevel);
+}
+bool check(bstnode* root)
+{
+  int level=0,leaflevel=0;
+  return isleaflevel(root,level,&leaflevel);
+}
+
+bool f=true;
+int checksumtree(bstnode* root)
+{
+  if(!root)
+  {
+    return 0;
+  }
+  if(!root->left && !root->right)
+  {
+    return root->data;
+  }
+  if(f==0)
+  {
+    return 0;
+  }
+  int a=checksumtree(root->left);
+  int b=checksumtree(root->right);
+
+  if(a+b!=root->data)
+  {
+    f=0;
+  }
+  return a+b+root->data;
+}
+bool isSumtree(bstnode* root)
+{
+  checksumtree(root);
+  return f;
+}
 int main()
 {
   bstnode* root=create(1);
@@ -473,12 +529,38 @@ int main()
   cout<<"Boundary Traversal of Tree : ";
   printBoundary(root);
   
-  // Sum Tree Function
+  /* Sum Tree Function
   cout<<"\n";
   cout<<"Sumtree Inorder Traversal of Tree : ";
   toSumTree(root);
   inorder(root);
+  */
 
+
+  // Check if all the trees are at the same Level or not
+
+  cout<<"\n";
+  cout<<"They are in level : ";
+  if(check(root))
+  {
+    cout<<"true";
+  }
+  else
+  {
+    cout<<false;
+  }
+
+  // Check if it is sum tree or not
+  cout<<"\n";
+  cout<<"Is SumTree or not : ";
+  if(isSumtree(root))
+  {
+    cout<<"True";
+  }
+  else
+  {
+    cout<<"False";
+  }
 
 
 
