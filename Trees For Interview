@@ -1,0 +1,487 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct bstnode
+{
+  int data;
+  bstnode* left;
+  bstnode* right;
+};
+
+bstnode* create(int val)
+{
+  bstnode* newNode=new bstnode();
+  newNode->data=val;
+  newNode->left=NULL;
+  newNode->right=NULL;
+
+  return newNode;
+}
+
+void preorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  cout<<root->data<<" ";
+  preorder(root->left);
+  preorder(root->right);
+}
+
+void inorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  inorder(root->left);
+  cout<<root->data<<" ";
+  inorder(root->right);
+}
+
+void postorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  postorder(root->left);
+  postorder(root->right);
+  cout<<root->data<<" ";
+}
+void levelorder(bstnode* root)
+{
+  if(root==NULL)
+  {
+    return ;
+  }
+  else
+  {
+    queue<bstnode*>q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+      bstnode* curr=q.front();
+      q.pop();
+      cout<<curr->data<<" ";
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+
+    }
+  }
+}
+bstnode* mirror(bstnode* root)
+{
+  if(!root)
+  {
+    return NULL;
+  }
+  bstnode* temp=root->left;
+  root->left=root->right;
+  root->right=temp;
+
+  mirror(root->left);
+  mirror(root->right);
+
+  return root;
+}
+
+void preiterative(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  stack<bstnode*>s;
+  s.push(root);
+  while(!s.empty())
+  {
+    bstnode* temp=s.top();
+    s.pop();
+    cout<<temp->data<<" ";
+    if(temp->right)
+    {
+      s.push(temp->right);
+    }
+    if(temp->left)
+    {
+      s.push(temp->left);
+    }
+  }
+}
+
+void initerative(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+
+  stack<bstnode*>s;
+  bstnode* curr=root;
+  while(!s.empty() || curr!=NULL)
+  {
+    if(curr!=NULL)
+    {
+      s.push(curr);
+      curr=curr->left;
+    }
+    else
+    {
+      curr=s.top();
+      s.pop();
+      cout<<curr->data<<" ";
+      curr=curr->right;
+    }
+  }
+}
+
+void postiterative(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  stack<bstnode*>s1,s2;
+s1.push(root);
+bstnode* curr;
+while(!s1.empty())
+{
+  curr=s1.top();
+  s1.pop();
+  s2.push(curr);
+  if(curr->left)
+  {
+    s1.push(curr->left);
+  }
+  if(curr->right)
+  {
+    s1.push(curr->right);
+  }
+}
+
+while(!s2.empty())
+{
+  curr=s2.top();
+  s2.pop();
+  cout<<curr->data<<" ";
+}
+
+}
+
+void lefttree(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  queue<bstnode*>q;
+  q.push(root);
+  while(!q.empty())
+  {
+    int n=q.size();
+
+    for(int i=1;i<=n;i++)
+    {
+      bstnode* curr=q.front();
+      q.pop();
+
+      if(i==1)
+      {
+        cout<<curr->data<<" ";
+      }
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+    }
+  }
+}
+
+void righttree(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  queue<bstnode*>q;
+  q.push(root);
+  while(!q.empty())
+  {
+    int n=q.size();
+    for(int i=1;i<=n;i++)
+    {
+      bstnode* curr=q.front();
+      q.pop();
+      if(i==n)
+      {
+        cout<<curr->data<<" ";
+      }
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+    }
+  }
+}
+
+void zigzagtraversal(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  stack<bstnode*>currentlevel,nextlevel;
+  currentlevel.push(root);
+  bool lefttoright=true;
+  while(!currentlevel.empty())
+  {
+    bstnode* temp=currentlevel.top();
+    currentlevel.pop();
+
+    if(temp)
+    {
+      cout<<temp->data<<" ";
+      if(lefttoright)
+      {
+        if(temp->left)
+        {
+          nextlevel.push(temp->left);
+        }
+        if(temp->right)
+        {
+          nextlevel.push(temp->right);
+        }
+      }
+      else
+      {
+        if(temp->right)
+        {
+          nextlevel.push(temp->right);
+        }
+        if(temp->left)
+        {
+          nextlevel.push(temp->left);
+        }
+      }
+    }
+    if(currentlevel.empty())
+    {
+      lefttoright=!lefttoright;
+      swap(currentlevel,nextlevel);
+    }
+  }
+}
+
+bool isBal=true;
+int hieght(bstnode* root)
+{
+  if(!root)
+  {
+    return 0;
+  }
+  int l=hieght(root->left);
+  int r=hieght(root->right);
+
+  if(abs(l-r)>1)
+  {
+    isBal=false;
+  }
+
+  return max(l,r)+1;
+}
+bool isBalancedTree(bstnode* root)
+{
+  hieght(root);
+  return isBal;
+}
+
+// DIAGONAL PRINT THE IDEA IS TO USE the distance whenever we encounter the left tree we would increase the distance by 1 and for the right distance it would remain the same
+void diagonalutil(bstnode* root,int d,map<int,vector<int>>&diagonalprint)
+{
+  if(!root)
+  {
+    return ;
+  }
+  diagonalprint[d].push_back(root->data);
+  diagonalutil(root->left,d+1,diagonalprint);
+  diagonalutil(root->right,d,diagonalprint);
+}
+void printdiagonal(bstnode* root)
+{
+  map<int,vector<int>>diagonalprint;
+  diagonalutil(root,0,diagonalprint);
+
+  for(auto it:diagonalprint)
+  {
+    vector<int>v=it.second;
+    for(auto i:v)
+    {
+      cout<<i<<" ";
+    }
+    cout<<endl;
+  }
+}
+
+
+void printLeaves(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  printLeaves(root->left);
+  if(!(root->left) && !(root->right))
+  {
+    cout<<root->data<<" ";
+  }
+  printLeaves(root->right);
+}
+
+void printboundaryleft(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  if(root->left)
+  {
+    cout<<root->data<<" ";
+    printboundaryleft(root->left);
+  }
+  else if(root->right)
+  {
+    cout<<root->data<<" ";
+    printboundaryleft(root->right);
+  }
+}
+
+void printboundaryright(bstnode* root)
+{
+  if(!root)
+  {
+    return;
+  }
+  if(root->right)
+  {
+    cout<<root->data<<" ";
+    printboundaryright(root->right);
+  }
+  else if(root->left)
+  {
+    cout<<root->data<<" ";
+    printboundaryright(root->left);
+  }
+}
+
+void printBoundary(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  cout<<root->data<<" ";
+  printboundaryleft(root->left);
+  printLeaves(root->left);
+  printLeaves(root->right);
+  printboundaryright(root->right);
+}
+
+int toSumTree(bstnode* root)
+{
+  if(!root)
+  {
+    return 0;
+  }
+  int oldval=root->data;
+
+  root->data=toSumTree(root->left)+toSumTree(root->right);
+
+  return root->data+oldval;
+}
+int main()
+{
+  bstnode* root=create(1);
+	root->left=create(2);
+	root->right=create(3);
+	root->left->left=create(4);
+	root->left->right=create(5);
+	root->right->left=create(6);
+	root->right->right=create(7);
+  levelorder(root);
+  cout<<"\n";
+ preorder(root);
+  cout<<"\n";
+  inorder(root);
+  cout<<"\n";
+  postorder(root);
+  cout<<"\n";
+  //mirror(root);
+  //levelorder(root);
+  // cout<<"\n";
+  preiterative(root);
+  cout<<"\n";
+  initerative(root);
+  cout<<"\n";
+  postiterative(root);
+  cout<<"\n";
+  cout<<"Left View of Tree : ";
+  lefttree(root);
+  cout<<"\n";
+  cout<<"Right View of Tree : ";
+  righttree(root);
+
+  cout<<"\n";
+  cout<<"Zig Zag traversal of Tree : ";
+  zigzagtraversal(root);
+  cout<<"\n";
+
+  // IS Balanced Tree Function
+  cout<<"IsBalanced tree : ";
+  if(isBalancedTree(root))
+  {
+    cout<<"true";
+  }
+  else
+  {
+    cout<<"false ";
+  }
+  // Diagonal of a Tree
+  cout<<"\n";
+  cout<<"Diagonal Traversal of Tree : ";
+  printdiagonal(root);
+  
+  // Print Boundary of the Tree
+
+  cout<<"\n";
+  cout<<"Boundary Traversal of Tree : ";
+  printBoundary(root);
+  
+  // Sum Tree Function
+  cout<<"\n";
+  cout<<"Sumtree Inorder Traversal of Tree : ";
+  toSumTree(root);
+  inorder(root);
+
+
+
+
+
+  return 0;
+}
