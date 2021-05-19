@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct bstnode
+{
+  int data;
+  bstnode* left;
+  bstnode* right;
+};
+
+bstnode* create(int val)
+{
+  bstnode* newNode=new bstnode();
+  newNode->data=val;
+  newNode->left=NULL;
+  newNode->right=NULL;
+
+  return newNode;
+}
+
+void preorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  cout<<root->data<<" ";
+  preorder(root->left);
+  preorder(root->right);
+}
+
+void inorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  inorder(root->left);
+  cout<<root->data<<" ";
+  inorder(root->right);
+}
+
+void postorder(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  postorder(root->left);
+  postorder(root->right);
+  cout<<root->data<<" ";
+}
+void levelorder(bstnode* root)
+{
+  if(root==NULL)
+  {
+    return ;
+  }
+  else
+  {
+    queue<bstnode*>q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+      bstnode* curr=q.front();
+      q.pop();
+      cout<<curr->data<<" ";
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+
+    }
+  }
+}
+bstnode* mirror(bstnode* root)
+{
+  if(!root)
+  {
+    return NULL;
+  }
+  bstnode* temp=root->left;
+  root->left=root->right;
+  root->right=temp;
+
+  mirror(root->left);
+  mirror(root->right);
+
+  return root;
+}
+int main()
+{
+  bstnode* root=create(1);
+	root->left=create(2);
+	root->right=create(3);
+	root->left->left=create(4);
+	root->left->right=create(5);
+	root->right->left=create(6);
+	root->right->right=create(7);
+  levelorder(root);
+  cout<<"\n";
+ preorder(root);
+  cout<<"\n";
+  inorder(root);
+  cout<<"\n";
+  postorder(root);
+  cout<<"\n";
+  mirror(root);
+  levelorder(root);
+  return 0;
+}
