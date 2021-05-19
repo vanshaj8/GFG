@@ -1,0 +1,63 @@
+void lefttree(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  queue<bstnode*>q;
+  q.push(root);
+  while(!q.empty())
+  {
+    int n=q.size();
+
+    for(int i=1;i<=n;i++)
+    {
+      bstnode* curr=q.front();
+      q.pop();
+
+      if(i==1)
+      {
+        cout<<curr->data<<" ";
+      }
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+    }
+  }
+}
+
+void righttree(bstnode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  queue<bstnode*>q;
+  q.push(root);
+  while(!q.empty())
+  {
+    int n=q.size();
+    for(int i=1;i<=n;i++)
+    {
+      bstnode* curr=q.front();
+      q.pop();
+      if(i==n)
+      {
+        cout<<curr->data<<" ";
+      }
+      if(curr->left)
+      {
+        q.push(curr->left);
+      }
+      if(curr->right)
+      {
+        q.push(curr->right);
+      }
+    }
+  }
+}
