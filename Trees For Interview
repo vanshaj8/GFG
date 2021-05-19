@@ -453,10 +453,11 @@ int checksumtree(bstnode* root)
   {
     return root->data;
   }
-  if(f==0)
+  /*if(f==0)
   {
-    return 0;
+    return 0; This condition is of no use just for the reducing the the furthermore calculations
   }
+  */ 
   int a=checksumtree(root->left);
   int b=checksumtree(root->right);
 
