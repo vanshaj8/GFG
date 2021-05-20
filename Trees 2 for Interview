@@ -126,6 +126,45 @@ bstNode* deleteNode(bstNode* root,int key)
 	}
 	return root;
 }
+
+// Function for lowest common ancesstor
+// LCA iterative code
+bstNode* LCA(bstNode* root,int n1,int n2)
+{
+	while(root!=NULL)
+	{
+		if(root->data<n1 && root->data<n2)
+		{
+			root=root->right;
+		}
+		else if(root->data>n1 && root->data>n2)
+		{
+			root=root->left;
+		}
+		
+		else break;
+	}
+	
+	return root;
+}
+// LCA RECURSIVE CODE
+bstNode* LCArec(bstNode* root,int n1,int n2)
+{
+	if(!root)
+	{
+		return NULL;
+	}
+	if(root->data>n1 && root->data>n2)
+	{
+		return LCArec(root->left,n1,n2);
+	}
+	if(root->data<n1 && root->data<n2)
+	{
+		return LCArec(root->right,n1,n2);
+	}
+	
+	return root;
+}
 int main()
 {
 	// Inserting elements in binary search tree
@@ -153,5 +192,20 @@ int main()
 	cout<<findmax(root)<<endl;
 	deleteNode(root,5);
 	inorder(root);
+	cout<<"\n";
+	
+	bstNode* root1=NULL;
+	root1=insert(root1,20);
+	root1=insert(root1,8);
+	root1=insert(root1,22);
+	root1=insert(root1,4);
+	root1=insert(root1,12);
+	root1=insert(root1,10);
+	root1=insert(root1,14);
+	int n1=10 ,n2=14;
+	bstNode* t=LCA(root1,10,14);
+	cout<<t->data<<" ";
+	// bstNode* k=LCArec(root1,10,14);
+	// cout<<k->data<<" ";
 	return 0;
 }
