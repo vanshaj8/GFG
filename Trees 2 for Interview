@@ -1,130 +1,157 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct bstNode 
+struct bstNode
 {
-  int data;
-  bstNode* left;
-  bstNode* right;
+	int data;
+	bstNode* left;
+	bstNode* right;
 };
 
-bstNode* create(int val)
+bstNode* getnewnode(int val)
 {
-  bstNode* newNode=new bstNode();
-  newNode->data=val;
-  newNode->left=NULL;
-  newNode->right=NULL;
-
-  return  newNode;
+	bstNode* newNode=new bstNode();
+	newNode->data=val;
+	newNode->left=newNode->right=NULL;
+	
+	return newNode;
 }
 
-void preorder(bstNode* root)
-{
-  if(!root)
-  {
-    return ;
-  }
-  cout<<root->data<<" ";
-  preorder(root->left);
-  preorder(root->right);
-}
-
-bool areIdentical(bstNode* root1,bstNode* root2)
-{
-  if(!root1 && !root2)
-  {
-    return true;
-  }
-  if(!root1 || !root2)
-  {
-    return false;
-  }
-  if(root1->data !=root2->data)
-  {
-  	return false;
-  }
-
-  return areIdentical(root1->left,root2->left)&&areIdentical(root1->right,root2->right);
-}
-// check if root2 is subtree of root 1
-bool isSubTree(bstNode* root1,bstNode* root2)
-{
-  if(!root2)
-  {
-    return true;
-  }
-  if(!root1)
-  {
-    return false;
-  }
-
-  if(areIdentical(root1,root2))
-  {
-    return true;
-  }
-  
-  return isSubTree(root1->left,root2) || isSubTree(root1->right,root2); 
-}
-
-int findsum(bstNode* root,int &ans)
+bstNode* insert(bstNode* root,int val)
 {
 	if(root==NULL)
 	{
-		return 0;
+		root=getnewnode(val);
 	}
-	
-	int currsum=root->data + findsum(root->left,ans)+ findsum(root->right,ans);
-	ans=max(ans,currsum);
-	
-	return currsum;
-}
-int findLargestSubtreeSum(bstNode* root)
-{
-	if(!root)
+	else if(val<=root->data)
 	{
-		return 0;
-	}
-	int ans=INT_MIN;
-	findsum(root,ans);
-	return ans;
-}
-int main()
-{
-  //1st Tree
-  bstNode *T=create(26);
-    T->right= create(3);
-    T->right->right= create(3);
-    T->left = create(10);
-    T->left->left = create(4);
-    T->left->left->right= create(30);
-    T->left->right= create(6);
-    preorder(T);
-    // 2nd Tree
-    bstNode *S =create(10);
-    S->right = create(6);
-    S->left= create(4);
-    S->left->right=create(20);
-    cout<<"\n";
-    preorder(S);
-    cout<<endl;
-    
-    if(isSubTree(T,S))
-    {
-    	cout<<"YES IT IS SUBTREE";
+		root->left=insert(root->left,val);
 	}
 	else
 	{
-		cout<<"NO IT IS NOT SUBTREE";
+		root->right=insert(root->right,val);
 	}
 	
-	bstNode* root = create(1);
-    root->left = create(-2);
-    root->right = create(3);
-    root->left->left = create(4);
-    root->left->right = create(5);
-    root->right->left = create(-6);
-    root->right->right = create(2);
-    cout<<"\n";
-    cout<<findLargestSubtreeSum(root);
-  return 0;
+	return root;
+}
+bool search(bstNode* root,int value)
+{
+	if(root==NULL)
+	{
+		return false;
+	}
+	else if(root->data==value)
+	{
+		return true;
+	}
+	else if(value<=root->data)
+	{
+		return search(root->left,value);
+	}
+	else
+	{
+		return search(root->right,value);
+	}
+}
+
+void inorder(bstNode* root)
+{
+	if(!root)
+	{
+		return ;
+	}
+	inorder(root->left);
+	cout<<root->data<<" ";
+	inorder(root->right);
+}
+
+bstNode* finmin(bstNode* root)
+{
+	while(root->left!=NULL)
+	{
+		root=root->left;
+	}
+	
+	return root;
+}
+int findmax(bstNode* root)
+{
+while(root->right!=NULL)
+{
+	root=root->right;
+	}	
+	return root->data;
+}
+bstNode* deleteNode(bstNode* root,int key)
+{
+	if(!root)
+	{
+		return NULL;
+	}
+	else if(root->data<key)
+	{
+		root->right=deleteNode(root->right,key);
+	}
+	else if(root->data>key)
+	{
+		root->left=deleteNode(root->left,key);
+	}
+	else
+	{
+		// case 1 : when no children
+		if(!root->left && !root->right)
+		{
+			delete(root);
+			return NULL;
+		}
+		// case 2 :: when it has only 1 children
+		else if(root->left==NULL)
+		{
+			bstNode* temp=root;
+			root=root->right;
+			delete(temp);
+		}
+		else if(root->right==NULL)
+		{
+			bstNode* temp=root;
+			root=root->left;
+			delete(root);
+		}
+		else // Case 3: When it has two children
+		{
+			bstNode* temp=finmin(root->right);
+			root->data=temp->data;
+			root->right=deleteNode(root->right,temp->data);
+		}
+	}
+	return root;
+}
+int main()
+{
+	// Inserting elements in binary search tree
+	bstNode* root=NULL;
+	root=insert(root,1);
+	root=insert(root,2);
+	root=insert(root,3);
+	root=insert(root,4);
+	root=insert(root,5);
+	root=insert(root,6);
+	root=insert(root,7);
+	inorder(root);
+	// Searching an element in binary search tree
+	int num=3;
+	cout<<"\n";
+	if(search(root,num)==true)
+	{
+		cout<<"Found"<<endl;
+	}
+	else
+	{
+		cout<<"Not Found"<<endl;
+	}
+	cout<<finmin(root)<<endl;
+	cout<<findmax(root)<<endl;
+	deleteNode(root,5);
+	inorder(root);
+	return 0;
 }
