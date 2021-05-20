@@ -1,0 +1,35 @@
+void largestrootsum(Node* root,int sum,int len,int &maxlen,int &maxsum)
+{
+    // if true we have to traverse till leaft path
+    if(!root)
+    {
+        if(maxlen<len)
+        {
+            maxlen=len;
+            maxsum=sum;
+        }
+        else if(maxlen==len && maxsum<sum)
+        {
+            maxsum=sum;
+        }
+        return ;
+    }
+    // recursive for left tree
+    largestrootsum(root->left,sum+root->data,len+1,maxlen,maxsum);
+    
+    // recursive for right tree
+    largestrootsum(root->right,sum+root->data,len+1,maxlen,maxsum);
+}
+
+int sumOfLongRootToLeafPath(Node* root)
+{
+    if(!root)
+    {
+        return 0;
+    }
+    
+    int maxsum=INT_MIN,maxlen=0;
+    
+    largestrootsum(root,0,0,maxlen,maxsum);
+    return maxsum;
+}
