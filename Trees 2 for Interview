@@ -1,0 +1,130 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct bstNode 
+{
+  int data;
+  bstNode* left;
+  bstNode* right;
+};
+
+bstNode* create(int val)
+{
+  bstNode* newNode=new bstNode();
+  newNode->data=val;
+  newNode->left=NULL;
+  newNode->right=NULL;
+
+  return  newNode;
+}
+
+void preorder(bstNode* root)
+{
+  if(!root)
+  {
+    return ;
+  }
+  cout<<root->data<<" ";
+  preorder(root->left);
+  preorder(root->right);
+}
+
+bool areIdentical(bstNode* root1,bstNode* root2)
+{
+  if(!root1 && !root2)
+  {
+    return true;
+  }
+  if(!root1 || !root2)
+  {
+    return false;
+  }
+  if(root1->data !=root2->data)
+  {
+  	return false;
+  }
+
+  return areIdentical(root1->left,root2->left)&&areIdentical(root1->right,root2->right);
+}
+// check if root2 is subtree of root 1
+bool isSubTree(bstNode* root1,bstNode* root2)
+{
+  if(!root2)
+  {
+    return true;
+  }
+  if(!root1)
+  {
+    return false;
+  }
+
+  if(areIdentical(root1,root2))
+  {
+    return true;
+  }
+  
+  return isSubTree(root1->left,root2) || isSubTree(root1->right,root2); 
+}
+
+int findsum(bstNode* root,int &ans)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	
+	int currsum=root->data + findsum(root->left,ans)+ findsum(root->right,ans);
+	ans=max(ans,currsum);
+	
+	return currsum;
+}
+int findLargestSubtreeSum(bstNode* root)
+{
+	if(!root)
+	{
+		return 0;
+	}
+	int ans=INT_MIN;
+	findsum(root,ans);
+	return ans;
+}
+int main()
+{
+  //1st Tree
+  bstNode *T=create(26);
+    T->right= create(3);
+    T->right->right= create(3);
+    T->left = create(10);
+    T->left->left = create(4);
+    T->left->left->right= create(30);
+    T->left->right= create(6);
+    preorder(T);
+    // 2nd Tree
+    bstNode *S =create(10);
+    S->right = create(6);
+    S->left= create(4);
+    S->left->right=create(20);
+    cout<<"\n";
+    preorder(S);
+    cout<<endl;
+    
+    if(isSubTree(T,S))
+    {
+    	cout<<"YES IT IS SUBTREE";
+	}
+	else
+	{
+		cout<<"NO IT IS NOT SUBTREE";
+	}
+	
+	bstNode* root = create(1);
+    root->left = create(-2);
+    root->right = create(3);
+    root->left->left = create(4);
+    root->left->right = create(5);
+    root->right->left = create(-6);
+    root->right->right = create(2);
+    cout<<"\n";
+    cout<<findLargestSubtreeSum(root);
+  return 0;
+}
