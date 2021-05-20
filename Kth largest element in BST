@@ -1,0 +1,27 @@
+class Solution
+{
+    public:
+    void inorder(Node* root,int k,int &c,int &ans )
+    {
+        if(!root || c>=k)
+        {
+            return ;
+        }
+        inorder(root->right,k,c,ans);
+        c++;
+        if(k==c)
+        {
+            ans=root->data;
+            return ;
+        }
+        
+        inorder(root->left,k,c,ans);
+        
+    }
+    int kthLargest(Node *root, int K)
+    {
+        int c=0,ans;
+        inorder(root,K,c,ans);
+        return ans;
+    }
+};
