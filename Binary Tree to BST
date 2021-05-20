@@ -1,0 +1,62 @@
+
+void storeInorder(struct node* root,int inorder[],int* index)
+{
+	// base case
+	if(root==NULL)
+	{
+		return ;
+	}
+	
+	storeInorder(root->left,inorder,index);
+	inorder[*index]=root->data;
+	(*index)++;
+	
+	storeInorder(root->right,inorder,index);
+}
+
+int countNodes(struct node* root)
+{
+	if(root==NULL)
+	{return 0;
+	}
+	
+	return countNodes(root->left)+countNodes(root->right)+1;
+}
+
+void arrayToBST(int *arr,struct node* root,int* index)
+{
+	if(root==NULL)
+	{
+		return ;
+	}
+	arrayToBST(arr,root->left,index);
+	root->data=arr[*index];
+	(*index)++;
+	
+	arrayToBST(arr,root->right,index);
+	}
+void binaryTreeToBST(struct node* root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	int n=countNodes(root);
+	
+	// create a temp array to store the number of elements
+	int* arr=new int[n];
+	int i=0;
+	
+	storeInorder(root,arr,&i);
+	
+	sort(arr,arr+n);
+	// copy elements back in array
+	 i=0;
+	arrayToBST(arr,root,&i);
+	
+	// deleting the memory allocated to avoid memory leak
+	
+	
+	
+}
