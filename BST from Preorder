@@ -1,0 +1,60 @@
+Time Complexity : O(N^2)
+
+node* constructTreeUtil(int pre[],int* preIndex,int low,int high,int size)
+{
+  // Base case
+  if(*preIndex >=size || low>high)
+  {
+    return NULL;
+  }
+  node* root=newNode(pre[*preIndex]);
+  *preIndex=*preIndex+1;
+  
+  // search for the element greater than preindex that will be on the left side;
+  int i;
+
+  for(i=low;i<=high;i++)
+  {
+    if(pre[i]>root->data)
+    {
+      break;
+    }
+  }
+
+  root->left=constructTreeUtil(pre,preIndex,*preIndex,i-1,size);
+  root->right=constructTreeUtil(pre,preIndex,i,high,size);
+
+return root;
+
+}
+
+
+node* constructTree(int pre[], int size)
+{
+	int preIndex = 0;
+	return constructTreeUtil(pre, &preIndex, 0, size - 1,
+							size);
+}
+
+
+
+Time Complexity : O(N)
+
+node( bsdtfrompre(vector<int>&p ,int id,int limit)
+{
+if(id>p.size() || p[id]>limit)
+{
+return NULL
+}
+
+node* root=new node(p[id++]);
+root->left=bstfrompre(p,id,root->val);
+root->right=bstfrompre(p,id,limit);
+return root;
+}
+node* constructTree(vector<int>&p)
+{
+int id=0;
+bstfrompre(p,id,INT_MAX);
+}
+
