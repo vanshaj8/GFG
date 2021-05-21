@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct bstnode
+{
+	int data;
+	bstnode* left;
+	bstnode* right;
+};
+
+bstnode* newNode(int value)
+{
+	bstnode* newNode=new bstnode();
+	newNode->data=value;
+	newNode->left=newNode->right=NULL;
+	return newNode;
+}
+void inorder(bstnode* root)
+{
+	if(!root)
+	{
+		return ;
+	}
+	inorder(root->left);
+	cout<<root->data<<" ";
+	inorder(root->right);
+}
+
+bool checkIsBST(bstnode* root,int low,int high)
+{
+	if(!root)
+	{
+		return true;
+	}
+	if(root->data<low || root->data>high)
+	{
+		return false;
+	}
+	return checkIsBST(root->left,low,root->data-1)&& checkIsBST(root->right,root->data+1,high);
+}
+bool isBST(bstnode* root)
+{
+	return checkIsBST(root,INT_MIN,INT_MAX);
+}
+
+int main()
+{
+	bstnode* root=new bstnode();
+	root=newNode(4);
+	root->left=newNode(2);
+	root->right=newNode(5);
+	root->left->left=newNode(1);
+	root->left->right=newNode(3);
+	
+	inorder(root);
+	if(isBST(root)==true)
+	{
+		cout<<"YES";
+	}
+	else
+	{
+		cout<<"NO";
+	}
+
+	return 0;
+}
