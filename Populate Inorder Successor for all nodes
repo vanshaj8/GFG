@@ -1,0 +1,15 @@
+node *prez=NULL;
+void populateNext(struct node* p)
+{
+    if(!p)
+    {
+        return ;
+    }
+    populateNext(p->left);
+    if(prez!=NULL)
+    {
+        prez->next=p;
+    }
+    prez=p;
+    populateNext(p->right);
+}
