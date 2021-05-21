@@ -1,0 +1,24 @@
+Node* construct(int pre[],int size,int minval,int maxval,int &preindex)
+{
+    if(preindex>=size || minval>maxval)
+    {
+        return NULL;
+    }
+    if(pre[preindex]>maxval || pre[preindex]<minval)
+    {
+        return NULL;
+    }
+    int temp=pre[preindex];
+    Node* root=newNode(pre[preindex]);
+    preindex++;
+    root->left=construct(pre,size,minval,temp-1,preindex);
+    root->right=construct(pre,size,temp+1,maxval,preindex);
+}
+
+Node* constructTree(int pre[], int size)
+{
+    int preindex=0;
+    Node* root=construct(pre,size,INT_MIN,INT_MAX,preindex);
+    return root;
+    
+}
