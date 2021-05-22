@@ -1,0 +1,30 @@
+string preorder(Node* root,unordered_map<string,int>&mp)
+{
+    string s;
+    if(!root)
+    {
+        s+="#";
+        return s;
+    }
+    s+=preorder(root->left,mp);
+    s+=preorder(root->right,mp);
+    s+=root->data;
+    mp[s]++;
+    
+    return s;
+}
+bool dupSub(Node *root)
+{
+     unordered_map<string,int>mp;
+     preorder(root,mp);
+     
+     for(auto i: mp)
+     {
+         if(i.second >=2 && i.first.length()>3)
+         {
+             return true;
+         }
+     }
+     
+     return false;
+}
