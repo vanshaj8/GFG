@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+#include<set>
+#include<unordered_set>
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node* left;
+	Node* right;
+};
+Node* newNode(int value)
+{
+	Node* newNode=new Node();
+	newNode->data=value;
+	newNode->left=newNode->right=NULL;
+	return newNode;
+}
+Node* insert(Node* root,int value)
+{
+	if(root==NULL)
+	{
+		root=newNode(value);
+	}
+	else if(value<root->data)
+	{
+		root->left=insert(root->left,value);
+	}
+	else if(value>root->data)
+	{
+		root->right=insert(root->right,value);
+	}
+	return root;
+}
+void storeNodes(Node* root,unordered_set<int>&all_nodes,unordered_set<int>&leaf_nodes)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	all_nodes.insert(root->data);
+	if(!root->left && !root->right)
+	{
+		leaf_nodes.insert(root->data);
+		return ;
+	}
+	storeNodes(root->left,all_nodes,leaf_nodes);
+	storeNodes(root->right,all_nodes,leaf_nodes);
+}
+
+bool isDeadEnd(Node* root)
+{
+	if(root==NULL)
+	{
+		return false;
+	}
+	unordered_set<int>all_nodes,leaf_nodes;
+	all_nodes.insert(0);
+	storeNodes(root,all_nodes,leaf_nodes);
+	
+	for(auto i=leaf_nodes.begin();i!=leaf_nodes.end();i++)
+	{
+		int x=(*i);
+		
+		if(all_nodes.find(x+1)!=all_nodes.end() && all_nodes.find(x-1)!=all_nodes.end())
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+int main()
+{
+	Node *root = NULL;
+    root = insert(root, 8);
+    root = insert(root, 5);
+    root = insert(root, 2);
+    root = insert(root, 3);
+    root = insert(root, 7);
+    root = insert(root, 11);
+    root = insert(root, 4);
+    
+	if (isDeadEnd(root) == true)
+        cout << "Yes " << endl;
+    else
+        cout << "No " << endl;
+    
+	return 0;
+}
