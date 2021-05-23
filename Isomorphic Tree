@@ -1,0 +1,71 @@
+/*
+   
+   The Time Complexity is O(min(m,n)) m and n are the minimum of both the nodes for traversal
+
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+int data;
+Node* left;
+Node* right;	
+};
+Node* newNode(int value)
+{
+	Node* newNode=new Node();
+	newNode->data=value;
+	newNode->left=newNode->right=NULL;
+	return newNode;
+}
+
+bool isIsomorhpic(Node* n1,Node* n2)
+{
+	if(n1==NULL && n2==NULL)
+	{
+		return true;
+	}
+	if(n1==NULL || n2==NULL)
+	{
+		return false;
+	}
+	if(n1->data!=n2->data)
+	{
+		return false;
+	}
+	return (isIsomorhpic(n1->left,n2->left) && isIsomorhpic(n1->right,n2->right) || isIsomorhpic(n1->left,n2->right) && isIsomorhpic(n1->right,n2->left));
+
+}
+int main()
+{    
+    Node *n1 = newNode(1);
+    n1->left        = newNode(2);
+    n1->right       = newNode(3);
+    n1->left->left  = newNode(4);
+    n1->left->right = newNode(5);
+    n1->right->left  = newNode(6);
+    n1->left->right->left = newNode(7);
+    n1->left->right->right = newNode(8);
+	
+	Node *n2 = newNode(1);
+    n2->left         = newNode(3);
+    n2->right        = newNode(2);
+    n2->right->left   = newNode(4);
+    n2->right->right   = newNode(5);
+    n2->left->right   = newNode(6);
+    n2->right->right->left = newNode(8);
+    n2->right->right->right = newNode(7);
+	
+	if(isIsomorhpic(n1,n2)==true)
+	{
+		cout<<"YES";
+	}
+	else
+	{
+		cout<<"NO";
+	}
+	
+	return 0;
+}
