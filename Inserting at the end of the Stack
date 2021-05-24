@@ -1,0 +1,22 @@
+/* Inserting an Element at the end of the Stack without using any 
+other data Strcuture 
+
+The Method function is implemented using call stack function
+
+*/
+
+stack<char>s;
+void insert_at_bottom(char x)
+{
+	if(s.empty())
+	{
+		s.push(x);
+	}
+	else
+	{
+		char a=s.top();
+		s.pop();
+		insert_at_bottom(x);
+		s.push(a)
+	}
+}
